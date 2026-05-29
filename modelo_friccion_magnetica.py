@@ -1,11 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-# ============================================================
 # Modelo reducido de fricción magnética sin contacto
 # Dos rotores / dos subredes: theta_A y theta_B
-# ============================================================
 #
 # Objetivo del código:
 # Construir un modelo mínimo que reproduzca cualitativamente la idea central
@@ -15,12 +12,11 @@ import matplotlib.pyplot as plt
 # Importante:
 # Este código NO pretende reproducir cuantitativamente el experimento completo
 # de 7x7 rotores. Es un modelo reducido útil para el paper del curso.
-# ============================================================
 
 
-# ============================================================
+
 # Parámetros generales de la simulación
-# ============================================================
+
 
 gamma = 1.0          # coeficiente de fricción rotacional
 v = 0.05             # velocidad de deslizamiento en periodos de red / unidad de tiempo
@@ -40,9 +36,9 @@ h_values = np.linspace(0.5, 5.0, 70)
 eps = 1e-12
 
 
-# ============================================================
+
 # Funciones auxiliares
-# ============================================================
+
 
 def wrap_angle(theta):
     """
@@ -90,9 +86,9 @@ def competition_factor(B, J):
     return 4 * B * J / ((B + J) ** 2 + eps)
 
 
-# ============================================================
+
 # Simulación dinámica
-# ============================================================
+
 
 def simulate(h, theta_A0=0.0, theta_B0=0.05):
     """
@@ -183,9 +179,9 @@ def simulate(h, theta_A0=0.0, theta_B0=0.05):
     }
 
 
-# ============================================================
+
 # Simulaciones representativas de tres regímenes
-# ============================================================
+
 
 # Estos valores se escogieron para representar tres zonas:
 # 1. Sustrato dominante: B >> J
@@ -200,9 +196,9 @@ result_middle = simulate(h_middle)
 result_large = simulate(h_large)
 
 
-# ============================================================
+
 # Figura 1: Ángulos vs desplazamiento en el régimen competitivo
-# ============================================================
+
 
 plt.figure(figsize=(9, 5))
 plt.plot(result_middle["x"], wrap_angle(result_middle["theta_A"]), label=r"$\theta_A$")
@@ -217,9 +213,9 @@ plt.savefig("figura_1_angulos_vs_desplazamiento.png", dpi=300)
 plt.show()
 
 
-# ============================================================
+
 # Figura 2: Parámetro de orden para tres separaciones
-# ============================================================
+
 
 plt.figure(figsize=(9, 5))
 plt.plot(result_small["x"], result_small["Sigma"], label=f"h = {h_small:.2f}  sustrato dominante")
@@ -235,9 +231,9 @@ plt.savefig("figura_2_parametro_de_orden.png", dpi=300)
 plt.show()
 
 
-# ============================================================
+
 # Barrido en h para calcular F_mag(h)
-# ============================================================
+
 
 F_rot_values = []
 F_mag_values = []
@@ -263,9 +259,9 @@ J_values = np.array(J_values)
 C_values = np.array(C_values)
 
 
-# ============================================================
+
 # Figura 3: Fricción magnética efectiva vs separación h
-# ============================================================
+
 
 plt.figure(figsize=(9, 5))
 plt.plot(h_values, F_mag_values, marker="o", label=r"$F_{\mathrm{mag}} = F_{\mathrm{rot}} C(h)$")
@@ -279,9 +275,9 @@ plt.savefig("figura_3_friccion_vs_h.png", dpi=300)
 plt.show()
 
 
-# ============================================================
+
 # Figura 4: Competencia entre interacciones B(h), J(h) y C(h)
-# ============================================================
+
 
 plt.figure(figsize=(9, 5))
 plt.plot(h_values, B_values, label=r"$B(h)$ interacción con el sustrato")
@@ -297,9 +293,9 @@ plt.savefig("figura_4_competencia_interacciones.png", dpi=300)
 plt.show()
 
 
-# ============================================================
+
 # Figura 5: Comparación entre disipación rotacional cruda y fricción efectiva
-# ============================================================
+
 
 plt.figure(figsize=(9, 5))
 plt.plot(h_values, F_rot_values, marker="o", label=r"$F_{\mathrm{rot}}$ disipación rotacional cruda")
@@ -314,9 +310,9 @@ plt.savefig("figura_5_comparacion_fricciones.png", dpi=300)
 plt.show()
 
 
-# ============================================================
+
 # Resumen numérico
-# ============================================================
+
 
 h_peak = h_values[np.argmax(F_mag_values)]
 F_peak = np.max(F_mag_values)
